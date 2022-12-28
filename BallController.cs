@@ -7,6 +7,7 @@ public class BallController : MonoBehaviour
     
     Rigidbody2D rb;
     SpriteRenderer sprite;
+    bool jumped = false;
     
     void Start()
     {
@@ -17,7 +18,12 @@ public class BallController : MonoBehaviour
         sprite.color = ColorChange.ChangeColor(sprite);
     }
 
-    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "ground" && jumped) {
+            Destroy(gameObject);
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -27,6 +33,7 @@ public class BallController : MonoBehaviour
         if (Input.GetKeyDown("up")) {
             rb.velocity = new Vector2(0,0);
             rb.AddForce(new Vector2(0, 1000f));
+            jumped = true;
         }
     }
 }
